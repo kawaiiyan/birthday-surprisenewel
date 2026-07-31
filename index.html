@@ -490,10 +490,26 @@ function goToScreen(i){
 
 const music = document.getElementById("bgMusic");
 
-document.addEventListener("click", function () {
-    music.volume = 0.4;      // volume (0 to 1)
-    music.play().catch(console.error);
-}, { once: true });
+function startMusic() {
+  if (music.paused) {
+    music.volume = 0.4;
+    music.play().catch(() => {});
+  }
+}
+
+document.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => {
+
+    startMusic();
+
+    if (btn.disabled) return;
+
+    if (current < screens.length - 1) {
+      goToScreen(current + 1);
+    }
+
+  });
+});
 
 // ---- Gallery ----
 const galleryEl = document.getElementById('gallery');
