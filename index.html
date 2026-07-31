@@ -490,20 +490,10 @@ function goToScreen(i){
 
 const music = document.getElementById("bgMusic");
 
-document.querySelectorAll('[data-next]').forEach(btn => {
-  btn.addEventListener('click', () => {
-
-    if (music.paused) {
-      music.play();
-    }
-
-    if (btn.disabled) return;
-
-    if (current < screens.length - 1) {
-      goToScreen(current + 1);
-    }
-  });
-});
+document.addEventListener("click", function () {
+    music.volume = 0.4;      // volume (0 to 1)
+    music.play().catch(console.error);
+}, { once: true });
 
 // ---- Gallery ----
 const galleryEl = document.getElementById('gallery');
