@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Newel Jaan!</title>
+<title>Happy Birthday!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
@@ -392,132 +392,48 @@
    needs to change.
    ============================================================ */
 const CONFIG = {
-  name: "Newel Jaan <3",
-  heroMessage: "I made you this instead of \"happy birthday\" I love you so much. I don't know how this is going to turn out",
-  finaleMessage: "Here's to another trip around the sun with you. I love you endlessly Babbar Sher, Lime.",
+  name: "Love",
+  heroMessage: "I made you this instead of just texting \"happy birthday\" like a normal person.",
+  finaleMessage: "Here's to another trip around the sun with you. I love you endlessly.",
 
   // Format: "YYYY-MM-DDTHH:mm:ss" — used only if you want to reuse the countdown logic elsewhere
-  birthdayDate: "2000-08-25T00:00:00",
+  birthdayDate: "2026-12-25T00:00:00",
 
   // Photos — replace img with a real image URL when ready. Leave "" for a placeholder card.
   photos: [
-     {
-      image: "anime art 1",
-      caption: "Us baby ❤️"
-    },
-    {
-      image: "IMG_8971",
-      caption: "My sexyyy ❤️"
-    },
-    {
-      image: "IMG_0941",
-      caption: "You're so cute ❤️"
-    },
-    {
-      image: "corporate",
-      caption: "MY corpu man ❤️"
-    },
-    {
-      image: "IMG_7232",
-      caption: "My hansy ❤️"
-    },
-    {
-      image: "punch",
-      caption: "Please don't hit me 😂"
-    },
-    {
-      image: "horse",
-      caption: "Happy Birthday bicchu ❤️"
-    }
+    { img: "", caption: "our first trip" },
+    { img: "", caption: "that one concert" },
+    { img: "", caption: "goofy selfie #47" },
+    { img: "", caption: "your favorite dessert" },
+    { img: "", caption: "us, just vibing" },
+    { img: "", caption: "add your own!" }
   ],
 
   // Balloon-pop wishes — one revealed per balloon, in order popped
   wishes: [
-     "You are so adorable ❤️",
-    "You give me peace.",
-    "You make me very angry 😂",
-    "You always put in efforts and I see it, darling ❤️",
-    "You tease me.",
-    "You make me laugh when I don't want to.",
-    "You give in a lot, and I'm really grateful for it.",
-    "You give me a reason to go on with my day.",
-    "You motivate me.",
-    "You give me a reason to push forward.",
-    "I have come so far with you, and that makes me so happy.",
-    "I can only see myself with you.",
-    "I love you, my jaan ❤️",
-    "I see my future with you every day.",
-    "You are hot.",
-    "You are sexy.",
-    "You make me breathless.",
-    "Tu aake dekhle... ki mere... ❤️ I spent so many nights thinking about you hehe."
+    "You make even boring errands feel like an adventure.",
+    "Here's to more terrible puns and inside jokes.",
+    "I hope this year gives you everything you deserve.",
+    "You're my favorite person to do absolutely nothing with.",
+    "Thank you for putting up with my singing in the car.",
+    "I love you more than yesterday, less than tomorrow."
   ],
 
   // The letter — each string becomes its own paragraph.
   letter: [
-
-"HAPPY BIRTHDAY",
-
-"MY NEWEL JAAN ❤️",
     "Hey you,",
     "I can't believe another year has gone by since I met you. You still make me laugh in the middle of ordinary days, and somehow you make even boring errands feel like an adventure.",
     "Thank you for being exactly who you are — a little ridiculous, endlessly kind, and mine.",
-    "Here's to another year of inside jokes, terrible puns, and making more memories together.",
-    ""
+    "Here's to another year of inside jokes, terrible puns, and making more memories together."
   ],
-  letterSignoff: "Yours always Mumma shona💜",
+  letterSignoff: "Yours always 💜",
 
   // Timeline of memories — add as many as you like.
   timeline: [
-    {
-      date: "2024 (I'm bad with dates 😂)",
-      title: "MEOW",
-      caption: "Did you like me back then?",
-      image: "Start"
-    },
-    {
-      date: "I'm sorry :(",
-      title: "Heheheh",
-      caption: "Surprise babebebe ❤️",
-      image: "IMG-20240429-WA0108"
-    },
-    {
-      date: "I'm sorry again :(",
-      title: "Sparks",
-      caption: "It continued... You're the best, my meow baby.",
-      image: "IMG_6051"
-    }
-  ],
-
-  gallery: [
-    {
-      image: "anime art 1",
-      caption: "Us baby ❤️"
-    },
-    {
-      image: "IMG_8971",
-      caption: "My sexyyy ❤️"
-    },
-    {
-      image: "IMG_0941",
-      caption: "You're so cute ❤️"
-    },
-    {
-      image: "corporate",
-      caption: "MY corpu man ❤️"
-    },
-    {
-      image: "IMG_7232",
-      caption: "My hansy ❤️"
-    },
-    {
-      image: "punch",
-      caption: "Please don't hit me 😂"
-    },
-    {
-      image: "horse",
-      caption: "Happy Birthday bicchu ❤️"
-    }
+    { date: "Where it started", title: "The day we met", desc: "Replace this with the story of how you two met." },
+    { date: "First date", title: "Nervous and giggly", desc: "Say a little about the first date — where you went, what happened." },
+    { date: "A favorite trip", title: "That weekend away", desc: "Talk about a trip or day out you both loved." },
+    { date: "Today", title: "Still going strong", desc: "Wrap it up with how you feel about him right now." }
   ]
 };
 /* ============================================================
@@ -561,8 +477,8 @@ const cameraSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" st
 CONFIG.photos.forEach(p => {
   const div = document.createElement('div');
   div.className = 'photo';
-  div.innerHTML = p.image
-    ? `<img src="${p.image}" alt="${p.caption}">`
+  div.innerHTML = p.img
+    ? `<img src="${p.img}" alt="${p.caption}">`
     : `<div class="placeholder">${cameraSvg}${p.caption}</div>`;
   galleryEl.appendChild(div);
 });
