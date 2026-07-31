@@ -458,7 +458,7 @@ const CONFIG = {
     { date: "Today", title: "Still going strong", desc: "Uh- I am kind of nervous. Havent ever coded 1000s of lines but here I am. I hope you like it baby." }
   ]
 };
-  const bgMusic = document.getElementById("bgMusic");
+ 
 /* ============================================================
    End of editable config.
    ============================================================ */
@@ -620,6 +620,7 @@ function animateConfetti(){
   requestAnimationFrame(animateConfetti);
 }
 animateConfetti();
+   const bgMusic = document.getElementById("bgMusic");
 document.getElementById('confetti-btn').addEventListener('click', () => burstConfetti(1));
 </script>
 <audio id="bgMusic" loop>
