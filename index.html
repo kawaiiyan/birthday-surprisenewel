@@ -466,6 +466,8 @@ document.getElementById('hero-name').textContent = CONFIG.name;
 document.getElementById('hero-sub').textContent = CONFIG.heroMessage;
 document.getElementById('finale-name').textContent = CONFIG.name;
 document.getElementById('finale-sub').textContent = CONFIG.finaleMessage;
+  const bgMusic = document.getElementById("bgMusic");
+let musicStarted = false;
 
 // ---- Screen navigation ----
 const screens = Array.from(document.querySelectorAll('.screen'));
@@ -488,6 +490,12 @@ function goToScreen(i){
 
 document.querySelectorAll('[data-next]').forEach(btn => {
   btn.addEventListener('click', () => {
+
+    if (!musicStarted) {
+      bgMusic.play();
+      musicStarted = true;
+    }
+
     if (btn.disabled) return;
     if (current < screens.length - 1) goToScreen(current + 1);
   });
