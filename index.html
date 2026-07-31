@@ -313,7 +313,9 @@
 </style>
 </head>
 <body>
-
+<audio id="bgMusic" loop>
+    <source src="Tu Aake Dekhle_320(KoshalWorld.Com).mp3" type="audio/mpeg">
+</audio>
 <canvas id="confetti-canvas"></canvas>
 
 <div id="app">
@@ -486,10 +488,20 @@ function goToScreen(i){
   if (current > 0) burstConfetti(0.4);
 }
 
+const music = document.getElementById("bgMusic");
+
 document.querySelectorAll('[data-next]').forEach(btn => {
   btn.addEventListener('click', () => {
+
+    if (music.paused) {
+      music.play();
+    }
+
     if (btn.disabled) return;
-    if (current < screens.length - 1) goToScreen(current + 1);
+
+    if (current < screens.length - 1) {
+      goToScreen(current + 1);
+    }
   });
 });
 
