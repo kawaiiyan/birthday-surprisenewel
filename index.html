@@ -313,9 +313,7 @@
 </style>
 </head>
 <body>
-<audio id="bgMusic" loop>
-    <source src="tuaakedekhle.mp3.mp3" type="audio/mpeg">
-</audio>
+
 <canvas id="confetti-canvas"></canvas>
 
 <div id="app">
@@ -488,26 +486,10 @@ function goToScreen(i){
   if (current > 0) burstConfetti(0.4);
 }
 
-const music = document.getElementById("bgMusic");
-
-function startMusic() {
-  if (music.paused) {
-    music.volume = 0.4;
-    music.play().catch(() => {});
-  }
-}
-
 document.querySelectorAll('[data-next]').forEach(btn => {
   btn.addEventListener('click', () => {
-
-    startMusic();
-
     if (btn.disabled) return;
-
-    if (current < screens.length - 1) {
-      goToScreen(current + 1);
-    }
-
+    if (current < screens.length - 1) goToScreen(current + 1);
   });
 });
 
