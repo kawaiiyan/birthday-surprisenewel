@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Newel Jaan!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!--
+  ============================================================
+  HOW TO CUSTOMIZE THIS PAGE
+  Everything you need to edit lives in the CONFIG object
+  inside the <script> tag near the bottom. Edit the text
+  there — no need to touch the HTML or CSS.
+
+  Look for: CONFIG.name, CONFIG.birthdayDate, CONFIG.photos,
+  CONFIG.wishes, CONFIG.letter, CONFIG.timeline.
+
+  To add real photos: set img: "https://your-image-link.com/photo.jpg"
+  (upload to imgur.com and paste the direct image link).
+  ============================================================
+-->
+
+<style>
+  :root{
+    --bg: #1B1033;
+    --bg-panel: #2A1B4D;
+    --pink: #FF4F81;
+    --yellow: #FFC93C;
+    --teal: #4CD9C0;
+    --cream: #FFF6ED;
+    --cream-dim: #cfc3e6;
+    --font-display: 'Baloo 2', system-ui, sans-serif;
+    --font-body: 'Quicksand', system-ui, sans-serif;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html, body{ height: 100%; }
+  body{
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-body);
+    overflow: hidden;
+    position: relative;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+  a:focus-visible, button:focus-visible, .envelope:focus-visible, .balloon-pop:focus-visible{
+    outline: 3px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  #app{ height: 100vh; width: 100vw; position: relative; }
+
+  .screen{
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    overflow-y: auto;
+  }
+  .screen.active{
+    display: flex;
+    animation: screenIn 0.6s ease both;
+  }
+  @keyframes screenIn{
+    from{ opacity: 0; transform: translateY(24px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  .wrap{ max-width: 760px; width: 100%; margin: 0 auto; }
+
+  .eyebrow{
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 16px;
+  }
+
+  h1{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 8vw, 5rem);
+    line-height: 1.05;
+    text-shadow: 4px 4px 0 var(--pink);
+  }
+  h1 .name{ color: var(--yellow); }
+
+  h2{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    margin-bottom: 30px;
+  }
+
+  p.sub{
+    margin-top: 18px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--cream-dim);
+    max-width: 460px;
+    margin-left:auto; margin-right:auto;
+  }
+
+  /* balloons floating in hero */
+  .balloon-deco{
+    position: absolute;
+    width: 60px; height: 78px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.85;
+    animation: floaty 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .balloon-deco::after{
+    content:"";
+    position:absolute; bottom:-20px; left:50%;
+    width:2px; height:22px;
+    background: rgba(255,246,237,0.35);
+    transform: translateX(-50%);
+  }
+  @keyframes floaty{
+    0%,100%{ transform: translateY(0) rotate(-3deg); }
+    50%{ transform: translateY(-20px) rotate(3deg); }
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--bg);
+    background: var(--yellow);
+    border: none;
+    border-radius: 100px;
+    padding: 16px 34px;
+    cursor: pointer;
+    box-shadow: 0 7px 0 #d9a71f;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    margin-top: 34px;
+  }
+  .btn:hover{ transform: translateY(-3px); }
+  .btn:active{ transform: translateY(4px); box-shadow: 0 3px 0 #d9a71f; }
+  .btn.alt{
+    background: var(--teal);
+    box-shadow: 0 7px 0 #2ea690;
+  }
+  .btn.alt:active{ box-shadow: 0 3px 0 #2ea690; }
+  .btn[disabled]{
+    opacity: 0.35;
+    cursor: not-allowed;
+    box-shadow: 0 7px 0 #7a6b3a;
+  }
+
+  .progress-dots{
+    display:flex; gap:8px; justify-content:center;
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    z-index: 50;
+  }
+  .progress-dots span{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,246,237,0.25);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .progress-dots span.on{ background: var(--pink); transform: scale(1.3); }
+
+  /* ---------- GALLERY ---------- */
+  .gallery{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .photo{
+    aspect-ratio: 1;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-panel), #3a2566);
+    display:flex; align-items:center; justify-content:center;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 0.25s ease;
+  }
+  .photo:hover{ transform: rotate(0deg) scale(1.05); }
+  .photo:nth-child(2){ --tilt: -3deg; }
+  .photo:nth-child(3){ --tilt: 2deg; }
+  .photo:nth-child(4){ --tilt: 2deg; }
+  .photo:nth-child(5){ --tilt: -2deg; }
+  .photo img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .photo .placeholder{ text-align:center; padding: 14px; color: var(--cream-dim); font-size: 0.72rem; font-weight: 600; }
+  .photo .placeholder svg{ width:26px; height:26px; margin-bottom:6px; opacity:0.6; }
+  @media (max-width: 640px){ .gallery{ grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---------- BALLOON POP GAME ---------- */
+  .pop-field{
+    position: relative;
+    height: 320px;
+    margin-top: 10px;
+  }
+  .balloon-pop{
+    position: absolute;
+    width: 70px; height: 90px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    border: none;
+    cursor: pointer;
+    animation: bobble 3s ease-in-out infinite;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .balloon-pop.popped{
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+  @keyframes bobble{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-14px); } }
+  .wish-bubble{
+    background: var(--bg-panel);
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-top: 18px;
+    font-size: 1.05rem;
+    color: var(--cream);
+    min-height: 28px;
+  }
+  .pop-count{
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--cream-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+
+  /* ---------- LETTER ---------- */
+  .envelope{
+    width: min(400px, 88vw);
+    cursor: pointer;
+    background: var(--pink);
+    border-radius: 16px;
+    padding: 36px 22px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cream);
+    box-shadow: 0 10px 0 #c73865;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    user-select: none;
+    margin: 0 auto;
+  }
+  .envelope:hover{ transform: translateY(-3px); }
+  .envelope:active{ transform: translateY(4px); box-shadow: 0 6px 0 #c73865; }
+
+  .letter-card{
+    display: none;
+    background: var(--bg-panel);
+    border-radius: 22px;
+    padding: 36px 30px;
+    margin-top: 22px;
+    max-width: 540px;
+    text-align: left;
+  }
+  .letter-card p{
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    margin-bottom: 14px;
+  }
+  .letter-signoff{
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--yellow);
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{
+    text-align: left;
+    position: relative;
+    padding-left: 30px;
+    border-left: 3px dashed var(--pink);
+    max-height: 46vh;
+    overflow-y: auto;
+    margin-top: 6px;
+  }
+  .t-item{ position: relative; padding-bottom: 36px; }
+  .t-item:last-child{ padding-bottom: 0; }
+  .t-item::before{ content: "🎈"; position: absolute; left: -46px; top: -4px; font-size: 1.3rem; }
+  .t-date{ font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+  .t-title{ font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  .t-desc{ color: var(--cream-dim); line-height: 1.6; font-size: 0.92rem; }
+
+  /* ---------- FINALE ---------- */
+  .finale h1{ font-size: clamp(2.2rem, 7vw, 4.2rem); }
+  .cake{ font-size: 4rem; margin-top: 8px; }
+  .credit{ margin-top: 30px; font-size: 0.78rem; color: var(--cream-dim); }
+
+  #confetti-canvas{
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div id="app">
+
+  <!-- 1: HERO -->
+  <section class="screen active" data-screen="hero">
+    <div class="balloon-deco" style="background:var(--pink); top:10%; left:8%;"></div>
+    <div class="balloon-deco" style="background:var(--yellow); top:16%; right:10%; animation-delay:1.2s; width:50px; height:64px;"></div>
+    <div class="balloon-deco" style="background:var(--teal); bottom:16%; left:12%; animation-delay:2s; width:54px; height:70px;"></div>
+    <div class="wrap">
+      <div class="eyebrow">a little website, just for you</div>
+      <h1>Happy Birthday,<br><span class="name" id="hero-name">Love</span>!</h1>
+      <p class="sub" id="hero-sub">I made you this instead of just texting "happy birthday" like a normal person.</p>
+      <button class="btn" data-next>🎁 Press for a surprise</button>
+    </div>
+  </section>
+
+  <!-- 2: GALLERY -->
+  <section class="screen" data-screen="gallery">
+    <div class="wrap">
+      <div class="eyebrow">exhibit a</div>
+      <h2>Us, being ridiculous</h2>
+      <div class="gallery" id="gallery"></div>
+      <button class="btn" data-next>Next surprise →</button>
+    </div>
+  </section>
+
+  <!-- 3: BALLOON POP -->
+  <section class="screen" data-screen="pop">
+    <div class="wrap">
+      <div class="eyebrow">one more thing</div>
+      <h2>Pop a balloon, get a wish</h2>
+      <div class="pop-field" id="pop-field"></div>
+      <div class="pop-count" id="pop-count">0 / 0 popped</div>
+      <div class="wish-bubble" id="wish-bubble">Tap a balloon above 👆</div>
+      <button class="btn" id="pop-next-btn" data-next disabled>Next surprise →</button>
+    </div>
+  </section>
+
+  <!-- 4: LETTER -->
+  <section class="screen" data-screen="letter">
+    <div class="wrap">
+      <div class="eyebrow">for your eyes only</div>
+      <h2>Open when ready</h2>
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-expanded="false">
+        💌 Tap to open your letter
+      </div>
+      <div class="letter-card" id="letter-card"></div>
+      <button class="btn" id="letter-next-btn" data-next disabled>Next surprise →</button>
+    </div>
+  </section>
+
+  <!-- 5: TIMELINE -->
+  <section class="screen" data-screen="timeline">
+    <div class="wrap">
+      <div class="eyebrow">the highlight reel</div>
+      <h2>A few of my favorite moments</h2>
+      <div class="timeline" id="timeline"></div>
+      <button class="btn" data-next>One last thing →</button>
+    </div>
+  </section>
+
+  <!-- 6: FINALE -->
+  <section class="screen finale" data-screen="finale">
+    <div class="wrap">
+      <div class="cake">🎂🎉</div>
+      <h1 id="finale-heading">Happy Birthday,<br><span class="name" id="finale-name">Love</span>!</h1>
+      <p class="sub" id="finale-sub">Here's to another trip around the sun with you. I love you endlessly.</p>
+      <button class="btn alt" id="confetti-btn">🎊 Press for confetti</button>
+      <div class="credit">made with love (and a little bit of code) 💜</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="progress-dots" id="progress-dots"></div>
+
+<script>
+/* ============================================================
+   CONFIG — edit everything here. Nothing below this object
+   needs to change.
+   ============================================================ */
+const CONFIG = {
+  name: "Newel Jaan <3",
+  heroMessage: "I made you this instead of \"happy birthday\" I love you so much. I don't know how this is going to turn out",
+  finaleMessage: "Here's to another trip around the sun with you. I love you endlessly Babbar Sher, Lime.",
+
+  // Format: "YYYY-MM-DDTHH:mm:ss" — used only if you want to reuse the countdown logic elsewhere
+  birthdayDate: "2000-08-25T00:00:00",
+
+  // Photos — replace img with a real image URL when ready. Leave "" for a placeholder card.
+  photos: [
+     {
+      image: "anime art 1",
+      caption: "Us baby ❤️"
+    },
+    {
+      image: "IMG_8971",
+      caption: "My sexyyy ❤️"
+    },
+    {
+      image: "IMG_0941",
+      caption: "You're so cute ❤️"
+    },
+    {
+      image: "corporate",
+      caption: "MY corpu man ❤️"
+    },
+    {
+      image: "IMG_7232",
+      caption: "My hansy ❤️"
+    },
+    {
+      image: "punch",
+      caption: "Please don't hit me 😂"
+    },
+    {
+      image: "horse",
+      caption: "Happy Birthday bicchu ❤️"
+    }
+  ],
+
+  // Balloon-pop wishes — one revealed per balloon, in order popped
+  wishes: [
+     "You are so adorable ❤️",
+    "You give me peace.",
+    "You make me very angry 😂",
+    "You always put in efforts and I see it, darling ❤️",
+    "You tease me.",
+    "You make me laugh when I don't want to.",
+    "You give in a lot, and I'm really grateful for it.",
+    "You give me a reason to go on with my day.",
+    "You motivate me.",
+    "You give me a reason to push forward.",
+    "I have come so far with you, and that makes me so happy.",
+    "I can only see myself with you.",
+    "I love you, my jaan ❤️",
+    "I see my future with you every day.",
+    "You are hot.",
+    "You are sexy.",
+    "You make me breathless.",
+    "Tu aake dekhle... ki mere... ❤️ I spent so many nights thinking about you hehe."
+  ],
+
+  // The letter — each string becomes its own paragraph.
+  letter: [
+
+"HAPPY BIRTHDAY",
+
+"MY NEWEL JAAN ❤️",
+    "Hey you,",
+    "I can't believe another year has gone by since I met you. You still make me laugh in the middle of ordinary days, and somehow you make even boring errands feel like an adventure.",
+    "Thank you for being exactly who you are — a little ridiculous, endlessly kind, and mine.",
+    "Here's to another year of inside jokes, terrible puns, and making more memories together.",
+    ""
+  ],
+  letterSignoff: "Yours always Mumma shona💜",
+
+  // Timeline of memories — add as many as you like.
+  timeline: [
+    {
+      date: "2024 (I'm bad with dates 😂)",
+      title: "MEOW",
+      caption: "Did you like me back then?",
+      image: "Start"
+    },
+    {
+      date: "I'm sorry :(",
+      title: "Heheheh",
+      caption: "Surprise babebebe ❤️",
+      image: "IMG-20240429-WA0108"
+    },
+    {
+      date: "I'm sorry again :(",
+      title: "Sparks",
+      caption: "It continued... You're the best, my meow baby.",
+      image: "IMG_6051"
+    }
+  ],
+
+  gallery: [
+    {
+      image: "anime art 1",
+      caption: "Us baby ❤️"
+    },
+    {
+      image: "IMG_8971",
+      caption: "My sexyyy ❤️"
+    },
+    {
+      image: "IMG_0941",
+      caption: "You're so cute ❤️"
+    },
+    {
+      image: "corporate",
+      caption: "MY corpu man ❤️"
+    },
+    {
+      image: "IMG_7232",
+      caption: "My hansy ❤️"
+    },
+    {
+      image: "punch",
+      caption: "Please don't hit me 😂"
+    },
+    {
+      image: "horse",
+      caption: "Happy Birthday bicchu ❤️"
+    }
+  ]
+};
+/* ============================================================
+   End of editable config.
+   ============================================================ */
+
+document.getElementById('hero-name').textContent = CONFIG.name;
+document.getElementById('hero-sub').textContent = CONFIG.heroMessage;
+document.getElementById('finale-name').textContent = CONFIG.name;
+document.getElementById('finale-sub').textContent = CONFIG.finaleMessage;
+
+// ---- Screen navigation ----
+const screens = Array.from(document.querySelectorAll('.screen'));
+let current = 0;
+
+const dotsEl = document.getElementById('progress-dots');
+screens.forEach((_, i) => {
+  const dot = document.createElement('span');
+  if (i === 0) dot.classList.add('on');
+  dotsEl.appendChild(dot);
+});
+
+function goToScreen(i){
+  screens[current].classList.remove('active');
+  current = i;
+  screens[current].classList.add('active');
+  Array.from(dotsEl.children).forEach((d, idx) => d.classList.toggle('on', idx === current));
+  if (current > 0) burstConfetti(0.4);
+}
+
+document.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.disabled) return;
+    if (current < screens.length - 1) goToScreen(current + 1);
+  });
+});
+
+// ---- Gallery ----
+const galleryEl = document.getElementById('gallery');
+const cameraSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h3l2-2h6l2 2h3v12H4z"/><circle cx="12" cy="13" r="3.5"/></svg>`;
+CONFIG.photos.forEach(p => {
+  const div = document.createElement('div');
+  div.className = 'photo';
+  div.innerHTML = p.image
+    ? `<img src="${p.image}" alt="${p.caption}">`
+    : `<div class="placeholder">${cameraSvg}${p.caption}</div>`;
+  galleryEl.appendChild(div);
+});
+
+// ---- Balloon pop game ----
+const popField = document.getElementById('pop-field');
+const wishBubble = document.getElementById('wish-bubble');
+const popCountEl = document.getElementById('pop-count');
+const popNextBtn = document.getElementById('pop-next-btn');
+const popColors = ['#FF4F81', '#FFC93C', '#4CD9C0'];
+let poppedCount = 0;
+const totalBalloons = CONFIG.wishes.length;
+popCountEl.textContent = `0 / ${totalBalloons} popped`;
+
+CONFIG.wishes.forEach((wish, i) => {
+  const b = document.createElement('button');
+  b.className = 'balloon-pop';
+  b.style.background = popColors[i % popColors.length];
+  b.style.left = (6 + (i * (88 / totalBalloons))) + '%';
+  b.style.top = (10 + (i % 3) * 28) + '%';
+  b.style.animationDelay = (i * 0.3) + 's';
+  b.setAttribute('aria-label', 'Pop balloon for a wish');
+  b.addEventListener('click', () => {
+    if (b.classList.contains('popped')) return;
+    b.classList.add('popped');
+    wishBubble.textContent = wish;
+    poppedCount++;
+    popCountEl.textContent = `${poppedCount} / ${totalBalloons} popped`;
+    burstConfetti(0.5);
+    if (poppedCount >= totalBalloons) {
+      popNextBtn.disabled = false;
+    }
+  });
+  popField.appendChild(b);
+});
+
+// ---- Letter ----
+const envelope = document.getElementById('envelope');
+const letterCard = document.getElementById('letter-card');
+const letterNextBtn = document.getElementById('letter-next-btn');
+let letterOpen = false;
+function toggleLetter(){
+  letterOpen = !letterOpen;
+  if (letterOpen){
+    letterCard.innerHTML = CONFIG.letter.map(p => `<p>${p}</p>`).join('') +
+      `<div class="letter-signoff">${CONFIG.letterSignoff}</div>`;
+    letterCard.style.display = 'block';
+    envelope.textContent = '💌 Tap to close';
+    envelope.setAttribute('aria-expanded', 'true');
+    letterNextBtn.disabled = false;
+  } else {
+    letterCard.style.display = 'none';
+    envelope.textContent = '💌 Tap to open your letter';
+    envelope.setAttribute('aria-expanded', 'false');
+  }
+}
+envelope.addEventListener('click', toggleLetter);
+envelope.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleLetter(); }});
+
+// ---- Timeline ----
+const timelineEl = document.getElementById('timeline');
+CONFIG.timeline.forEach(item => {
+  const div = document.createElement('div');
+  div.className = 't-item';
+  div.innerHTML = `
+    <div class="t-date">${item.date}</div>
+    <div class="t-title">${item.title}</div>
+    <div class="t-desc">${item.desc}</div>
+  `;
+  timelineEl.appendChild(div);
+});
+
+// ---- Confetti ----
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let particles = [];
+const colors = ['#FF4F81', '#FFC93C', '#4CD9C0', '#FFF6ED'];
+function burstConfetti(strength){
+  strength = strength || 1;
+  const count = Math.floor(120 * strength);
+  for (let i=0; i<count; i++){
+    particles.push({
+      x: canvas.width/2 + (Math.random()-0.5) * canvas.width * 0.3,
+      y: canvas.height,
+      vx: (Math.random()-0.5) * 14,
+      vy: -(Math.random()*14 + 8),
+      size: Math.random()*8+4,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rot: Math.random()*360,
+      vr: (Math.random()-0.5)*10,
+      life: 0
+    });
+  }
+}
+function animateConfetti(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p => {
+    p.vy += 0.35;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vr;
+    p.life++;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI/180);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.y < canvas.height + 40 && p.life < 300);
+  requestAnimationFrame(animateConfetti);
+}
+animateConfetti();
+document.getElementById('confetti-btn').addEventListener('click', () => burstConfetti(1));
+</script>
+
+</body>
+</html>
